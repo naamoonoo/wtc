@@ -2,16 +2,17 @@
 //  * @typedef DrinkStatus = "pending" |
 //  */
 const EventEmitter = require("./EventHandler");
+const Status = require("./Status");
 
 module.exports = class Drink {
   /**
    *
    * @param {string} name
    */
-  constructor(name, time) {
+  constructor(name, estimatedTime) {
     this.name = name;
-    this.time = time;
-    this.status = "pending";
+    this.estimatedTime = estimatedTime;
+    this.status = Status.PENDING;
   }
 
   updateStatus(status) {
@@ -19,7 +20,7 @@ module.exports = class Drink {
   }
 
   showDetailInfo() {
-    console.log(`${this.name}[${this.time}] is ${this.status}`);
+    console.log(`\t${this.name}[${this.estimatedTime}s] is ${this.status}`);
   }
 };
 
