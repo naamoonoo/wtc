@@ -1,31 +1,36 @@
-const EventEmitter = require("./EventHandler");
+const EventHandler = require("./EventHandler");
 const Status = require("./Status");
 const Events = require("./Events");
+const Drink = require("./Drink");
 
 module.exports = class Barista {
+  /**
+   *
+   * @param {string} name
+   */
   constructor(name) {
     this.name = name;
-    this.emptySlot = 2;
+    /**
+     * @type {Drink[]}
+     */
     this.drinks = [];
   }
 
   isAvailable() {
-    return this.emptySlot > 0;
+    return this.drinks.length < 2;
   }
 
+  /**
+   *
+   * @param {string} customerName
+   * @param {Drink} drink
+   */
   perpare(customerName, drink) {
-    this.emptySlot -= 1;
-    // drink.updateStatus(Status.PREPARING);
-    // console.log(
-    //   `[${this.name}] is preparing ${customerName}'s ${drink.name}...`
-    // );
     this.drinks.push(drink);
-    // this.showWorks();
+
     setTimeout(() => {
       drink.updateStatus(Status.DONE);
-      console.log(drink.name, "is prepared");
-      this.emptySlot += 1;
-      EventEmitter.emit(Events.DRINK_PREPARED, { customerName, drink });
+      EventHandler.emit(Events.DRINK_PREPARED, { customerName, drink });
     }, drink.estimatedTime * 1000);
   }
 
@@ -33,11 +38,12 @@ module.exports = class Barista {
     if (this.drinks.length === 0) {
       return;
     }
+
     this.drinks = this.drinks.filter((drink) => drink.status !== Status.DONE);
   }
 
   showWorks() {
-    const status = this.emptySlot === 2 ? "FREE" : "WORKING";
+    const status = this.drinks.length === 0 ? "FREE" : "WORKING";
     console.log(`[${this.name}] is ${status}`);
     this.drinks.forEach((drink) => drink.showDetailInfo());
     this.clearSlot();

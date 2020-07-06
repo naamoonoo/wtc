@@ -1,7 +1,3 @@
-// /**
-//  * @typedef DrinkStatus = "pending" |
-//  */
-const EventEmitter = require("./EventHandler");
 const Status = require("./Status");
 
 module.exports = class Drink {
@@ -12,9 +8,17 @@ module.exports = class Drink {
   constructor(name, estimatedTime) {
     this.name = name;
     this.estimatedTime = estimatedTime;
+
+    /**
+     * @type {DrinkStatus}
+     */
     this.status = Status.PENDING;
   }
 
+  /**
+   *
+   * @param {DrinkStatus} status
+   */
   updateStatus(status) {
     this.status = status;
   }

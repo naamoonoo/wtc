@@ -1,19 +1,33 @@
-const EventEmitter = require("./EventHandler");
+const EventHandler = require("./EventHandler");
 const Status = require("./Status");
 const Events = require("./Events");
+const Queue = require("./Queue");
+const DashBoard = require("./DashBoard");
+const Barista = require("./Barista");
+const Order = require("./Order");
 
 module.exports = class Manager {
+  /**
+   *
+   * @param {Queue} pendingQueue
+   * @param {DashBoard} dashBoard
+   * @param {Barista[]} baristas
+   */
   constructor(pendingQueue, dashBoard, baristas) {
     this.pendingQueue = pendingQueue;
-    this.ordersInPrepaing = [];
     this.dashBoard = dashBoard;
     this.baristas = baristas;
+    /**
+     * @type {Order[]}
+     */
+    this.ordersInPrepaing = [];
 
     this.distribuetDrinkToBarista = this.distribuetDrinkToBarista.bind(this);
 
-    EventEmitter.on(Events.DRINK_PREPARED, (customerName, drink) => {
+    EventHandler.on(Events.DRINK_PREPARED, (customerName, drink) => {
       // this.showDashBoard();
     });
+
     setInterval(() => this.distribuetDrinkToBarista(), 1000);
   }
 

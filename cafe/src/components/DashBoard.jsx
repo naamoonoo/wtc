@@ -1,7 +1,6 @@
 import React from "react";
 
 export const DashBoard = ({ dashBoard }) => {
-  console.log(dashBoard);
   const renderOrder = () => {
     return dashBoard.orders.map((order) => (
       <div>

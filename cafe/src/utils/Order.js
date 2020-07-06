@@ -1,4 +1,4 @@
-const EventEmitter = require("./EventHandler");
+const EventHandler = require("./EventHandler");
 const Status = require("./Status");
 
 module.exports = class Order {

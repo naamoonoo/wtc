@@ -1,11 +1,11 @@
-const EventEmitter = require("./EventHandler");
+const EventHandler = require("./EventHandler");
 const Events = require("./Events");
 
 module.exports = class Queue {
   constructor() {
     this.queue = [];
 
-    EventEmitter.on(Events.ORDER_REQUESTED, (order) =>
+    EventHandler.on(Events.ORDER_REQUESTED, (order) =>
       this.addToPendingQueue(order)
     );
   }
