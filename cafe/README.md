@@ -10,6 +10,6 @@
 
 ## To do
 
-- [ ] interactive order through web
+- [X] interactive order through web
 - [ ] re-render when something has change(dashboard, queue...)
 - [ ] ...
