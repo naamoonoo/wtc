@@ -1,0 +1,52 @@
+@import './fonts.css';
+@import './input.css';
+@import './button.css';
+@import './spring.css';
+
+:root {
+  /* Colors */
+  --gray: #777;
+  --border-gray: #ddd;
+  --border-blue: #0165c1;
+  --placeholder-gray: #ababab;
+  --white: #ffffff;
+  --blue: #0091fa;
+  --red: #f64646;
+  --pink: #fff8f8;
+  --green: #1ccf44;
+  --light-green: #f3fff7;
+  --deep-blue: #0165c1;
+  --light-blue: #f6faff;
+}
+
+body {
+  font-family: 'PAYW Pro', 'PAYW Pro KR', sans-serif;
+  color: #333;
+  scroll-behavior: smooth;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+button,
+input {
+  border: none;
+  background: none;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  color: inherit;
+}
+
+button:disabled {
+  cursor: default !important;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
