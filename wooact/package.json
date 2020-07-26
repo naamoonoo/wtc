@@ -1,0 +1,43 @@
+{
+  "name": "wooact-naamoonoo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --config=jest.config.js",
+    "test:watch": "jest --config=jest.config.js --watch",
+    "dev": "webpack-dev-server --config webpack.dev.js --watch",
+    "build": "webpack --config webpack.prod.js"
+  },
+  "devDependencies": {
+    "@babel/polyfill": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "@babel/preset-typescript": "^7.10.4",
+    "@testing-library/dom": "^7.20.2",
+    "@types/jest": "^26.0.4",
+    "babel-loader": "^8.1.0",
+    "css-loader": "^3.6.0",
+    "jest": "^26.1.0",
+    "node-sass": "^4.14.1",
+    "sass": "^1.26.10",
+    "sass-loader": "^9.0.2",
+    "style-loader": "^1.2.1",
+    "ts-jest": "^26.1.2",
+    "typescript": "^3.9.6",
+    "url-loader": "^4.1.0",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/depromeet/wooact-naamoonoo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/depromeet/wooact-naamoonoo/issues"
+  },
+  "homepage": "https://github.com/depromeet/wooact-naamoonoo#readme"
+}
