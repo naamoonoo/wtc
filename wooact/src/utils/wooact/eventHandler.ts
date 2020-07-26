@@ -1,20 +1,24 @@
-export class EventHandler {
-	constructor(private eventSet: {}) {}
+class EventHandler {
+	private eventStore;
 
-	storeEvent(
+	constructor() {
+		this.eventStore = new Set();
+	}
+
+	assignEventToWindow(
 		eventName: string,
 		targetClassName: string,
 		eventHandler: (e: Event) => any
 	) {
-		if (!targetClassName) {
-			console.error("cannot assign event without className");
+		const targetName = `.${targetClassName.split(" ").join(".")}`;
+		const eventAndTargetKey = targetName + eventName;
+		if (this.eventStore.has(eventAndTargetKey)) {
 			return;
 		}
+		this.eventStore.add(eventAndTargetKey);
 
 		window.addEventListener(eventName, (e: Event) => {
-			const target = (e.target as HTMLElement).closest(
-				".targetClassName"
-			);
+			const target = (e.target as HTMLElement).closest(targetName);
 			if (!target) {
 				return;
 			}
@@ -22,6 +26,6 @@ export class EventHandler {
 			eventHandler(e);
 		});
 	}
-
-	// assignEvent();
 }
+
+export const eventHandler = new EventHandler();

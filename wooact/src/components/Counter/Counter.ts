@@ -27,13 +27,13 @@ class Counter extends Component<IProps, IState> {
 		return div(
 			{ className: "counter-container" },
 			button({
-				className: "btn plus",
+				className: "btn",
 				textContent: "+",
 				onclick: () => this.onClickHandler(1),
 			}),
 			div({ textContent: currentCounter.toString() }),
 			button({
-				className: "btn minus",
+				className: "btn",
 				textContent: "-",
 				onclick: () => this.onClickHandler(-1),
 			})

@@ -1,4 +1,5 @@
-import { Component } from "./";
+import { Component } from ".";
+import { eventHandler } from "./eventHandler";
 
 export type CreateElement = <T>(
 	tagName: string,
@@ -6,25 +7,15 @@ export type CreateElement = <T>(
 	...childNodes: (HTMLElement | Component<any, any> | null)[]
 ) => HTMLElement;
 
-export interface IAttribute
-	extends Partial<
-		HTMLElement &
-			Element &
-			HTMLDivElement &
-			HTMLAnchorElement &
-			HTMLParagraphElement &
-			HTMLSpanElement &
-			HTMLButtonElement &
-			HTMLInputElement &
-			HTMLFormElement &
-			HTMLLabelElement &
-			HTMLQuoteElement
-	> {
-	// className: string;
-}
+export type HTMLELementTagName = keyof Omit<
+	HTMLElementTagNameMap,
+	"var" | "object"
+>;
+type HTMLElementTagType = HTMLElementTagNameMap[HTMLELementTagName];
+export type IAttribute = Partial<HTMLElementTagType>;
 
-export const generateElement: CreateElement = (
-	tagName: string,
+export const createElement: CreateElement = (
+	tagName: HTMLELementTagName,
 	attributes: IAttribute,
 	...childNodes: (HTMLElement | Component<any, any> | null)[]
 ): HTMLElement => {
@@ -46,8 +37,11 @@ export const generateElement: CreateElement = (
 		// event
 		if (typeof value === "function") {
 			const eventName = key.slice(2);
-			newElement.addEventListener(eventName, value);
-			// window.addEventListener(eventName, value);
+			eventHandler.assignEventToWindow(
+				eventName,
+				attributes.className,
+				value
+			);
 			// eventHandlerAssigner(eventName, attributes.className, value);
 			continue;
 		}
