@@ -1,7 +1,7 @@
 import { Component } from ".";
 import { eventHandler } from "./eventHandler";
 
-export type CreateElement = <T>(
+export type CreateElement = (
 	tagName: string,
 	attributes: IAttribute,
 	...childNodes: (HTMLElement | Component<any, any> | null)[]
@@ -12,6 +12,11 @@ export type HTMLELementTagName = keyof Omit<
 	"var" | "object"
 >;
 type HTMLElementTagType = HTMLElementTagNameMap[HTMLELementTagName];
+// type TextContent = { textConent: number | string };
+// export type CustomAttribute = {
+// 	textContent: string | number;
+// 	eventTarget: string;
+// };
 export type IAttribute = Partial<HTMLElementTagType>;
 
 export const createElement: CreateElement = (
@@ -37,12 +42,16 @@ export const createElement: CreateElement = (
 		// event
 		if (typeof value === "function") {
 			const eventName = key.slice(2);
+			if (!attributes.className) {
+				newElement.addEventListener(eventName, value);
+				continue;
+			}
+
 			eventHandler.assignEventToWindow(
 				eventName,
 				attributes.className,
 				value
 			);
-			// eventHandlerAssigner(eventName, attributes.className, value);
 			continue;
 		}
 
