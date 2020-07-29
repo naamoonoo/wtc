@@ -1,12 +1,12 @@
 import { fireEvent } from "@testing-library/dom";
 import { Component } from "../";
-import { generateElement } from "../generateElement";
+import { createElement } from "../createElement";
 import { div } from "../defaultElements";
 
-describe("[generateElement]", () => {
+describe("[createElement]", () => {
 	test("div 태그를 넣고 생성하면, div엘리먼트를 제대로 생성해야한다", () => {
 		const tagName = "div";
-		const $newElement = generateElement(tagName, { className: "" });
+		const $newElement = createElement(tagName, { className: "" });
 
 		expect($newElement instanceof HTMLDivElement).toBeTruthy();
 		expect($newElement.tagName).toEqual(tagName.toUpperCase());
@@ -18,7 +18,7 @@ describe("[generateElement]", () => {
 		const className = "block";
 
 		// when
-		const $newElement = generateElement(tagName, { className });
+		const $newElement = createElement(tagName, { className });
 
 		// then
 		expect($newElement.className).not.toBe("");
@@ -30,7 +30,7 @@ describe("[generateElement]", () => {
 		const text = "test";
 
 		// when
-		const $newElement = generateElement("div", {
+		const $newElement = createElement("div", {
 			className: "",
 			textContent: text,
 		});
@@ -44,7 +44,7 @@ describe("[generateElement]", () => {
 		const eventName = "onclick" as const;
 		const eventHandler = (e) => (e.currentTarget.dataset.isClicked = true);
 
-		const $newElement = generateElement("div", {
+		const $newElement = createElement("div", {
 			className: "",
 			[eventName]: eventHandler,
 		});
@@ -56,7 +56,7 @@ describe("[generateElement]", () => {
 
 	test("세번째 인자로 받는 child는, 해당 엘리먼트의 자식 노드로 존재해야 한다", () => {
 		//given
-		const $childElement = generateElement("p", {});
+		const $childElement = createElement("p", {});
 
 		// when
 		const $parentElement = div({}, $childElement);
@@ -70,7 +70,7 @@ describe("[generateElement]", () => {
 		expect(childNode.tagName).toBe("P");
 	});
 
-	test("세번째 인자로 받은 child가 generateELement function이면 함수를 실행하여 자식으로 append한다.", () => {
+	test("세번째 인자로 받은 child가 createElement function이면 함수를 실행하여 자식으로 append한다.", () => {
 		const CURRENT_CLASS_NAME = "parent";
 		const CHILD_CLASS_NAME = "child";
 

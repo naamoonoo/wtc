@@ -1,4 +1,4 @@
-import { IAttribute, createElement,CreateElement } from "./createElement";
+import { IAttribute, CreateElement } from "./createElement";
 import { Component } from "./";
 
 const htmlTagNames = [

@@ -1,30 +1,26 @@
-import { Component } from "./";
+import { Component } from ".";
+import { eventHandler } from "./eventHandler";
 
-export type CreateElement = <T>(
+export type CreateElement = (
 	tagName: string,
 	attributes: IAttribute,
 	...childNodes: (HTMLElement | Component<any, any> | null)[]
 ) => HTMLElement;
 
-export interface IAttribute
-	extends Partial<
-		HTMLElement &
-			Element &
-			HTMLDivElement &
-			HTMLAnchorElement &
-			HTMLParagraphElement &
-			HTMLSpanElement &
-			HTMLButtonElement &
-			HTMLInputElement &
-			HTMLFormElement &
-			HTMLLabelElement &
-			HTMLQuoteElement
-	> {
-	// className: string;
-}
+export type HTMLELementTagName = keyof Omit<
+	HTMLElementTagNameMap,
+	"var" | "object"
+>;
+type HTMLElementTagType = HTMLElementTagNameMap[HTMLELementTagName];
+// type TextContent = { textConent: number | string };
+// export type CustomAttribute = {
+// 	textContent: string | number;
+// 	eventTarget: string;
+// };
+export type IAttribute = Partial<HTMLElementTagType>;
 
-export const generateElement: CreateElement = (
-	tagName: string,
+export const createElement: CreateElement = (
+	tagName: HTMLELementTagName,
 	attributes: IAttribute,
 	...childNodes: (HTMLElement | Component<any, any> | null)[]
 ): HTMLElement => {
@@ -46,9 +42,16 @@ export const generateElement: CreateElement = (
 		// event
 		if (typeof value === "function") {
 			const eventName = key.slice(2);
-			newElement.addEventListener(eventName, value);
-			// window.addEventListener(eventName, value);
-			// eventHandlerAssigner(eventName, attributes.className, value);
+			if (!attributes.className) {
+				newElement.addEventListener(eventName, value);
+				continue;
+			}
+
+			eventHandler.assignEventToWindow(
+				eventName,
+				attributes.className,
+				value
+			);
 			continue;
 		}
 
