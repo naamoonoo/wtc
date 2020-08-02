@@ -1,86 +1,57 @@
-import { Diffing } from "./Diffing";
+import { Diff } from './Diffing'
 
-abstract class Component<P, S> {
-	protected element: HTMLElement;
+abstract class Component<P, S, X> {
+  protected element: HTMLElement
+  public props: P
+  private state: S
+  private store: X
 
-	constructor(public props?: P, private state?: S) {
-		Object.setPrototypeOf(this, Component.prototype);
-	}
+  constructor(args?: { props?: P; state?: S; store?: X }) {
+    for (const key in args) {
+      this[key] = args[key]
+    }
+    Object.setPrototypeOf(this, Component.prototype)
+  }
 
-	getElement(): HTMLElement {
-		return this.element;
-	}
+  getElement(): HTMLElement {
+    return this.element
+  }
 
-	unmount() {
-		this.comopnentWillUnmount();
-		this.element.remove();
-	}
+  unmount() {
+    this.comopnentWillUnmount()
+    this.element.remove()
+  }
 
-	private reRender() {
-		const diffUpdatedElement = Diffing.getNewlyRendered(
-			this.element,
-			this.render()
-		);
+  private reRender() {
+    this.element = Diff.updateOrReplaceElement(this.element, this.render())
+  }
 
-		if (this.element === diffUpdatedElement) {
-			return;
-		}
-		const oldElement = this.element;
-		this.element = diffUpdatedElement;
-		oldElement.remove();
-	}
+  protected setState(key: keyof S, value: S[keyof S]) {
+    if (!this.state) {
+      return
+    }
 
-	// need to update value's type
+    this.state[key] = value
+    this.reRender()
+  }
 
-	protected setState(key: keyof S, value: S[keyof S]) {
-		if (!this.state) {
-			return;
-		}
+  public getState(key: keyof S) {
+    if (!this.state) {
+      return
+    }
 
-		// if (typeof this.state[key] !== typeof value){
-		// 	console.error(`Cannot change the type of state's ${key}`)
-		// 	return ;
-		// }
-		// // typeof array
-		// // same length -> update
-		// if (value instanceof Array && value.length !== this.state[key].length){
+    return this.state[key]
+  }
 
-		// }
+  protected init() {
+    this.element = this.render()
 
-		// diff length -> just new render
+    this.componentDidMount()
+  }
 
-		// element's contain old state -> update
-
-		// element's attribute diff,
-
-		this.state[key] = value;
-		this.reRender();
-	}
-
-	public getState(key: keyof S) {
-		if (!this.state) {
-			return;
-		}
-
-		return this.state[key];
-	}
-
-	protected init() {
-		this.element = this.render();
-		this.componentDidMount();
-	}
-
-	protected abstract render?();
-	protected componentDidMount() {}
-	protected comopnentWillUnmount() {}
-	// private replaceWithNewElement() {
-	// 	const oldElement = this.element;
-	// 	const newElement = this.render();
-	// 	this.element = newElement;
-	// 	oldElement.remove();
-	// }
-
-	// private updateTextValue() {}
+  protected abstract render?()
+  protected componentDidMount() {}
+  protected comopnentWillUnmount() {}
 }
 
-export default Component;
+export default Component

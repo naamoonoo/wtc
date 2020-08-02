@@ -1,31 +1,31 @@
 class EventHandler {
-	private eventStore;
+  private eventStore
 
-	constructor() {
-		this.eventStore = new Set();
-	}
+  constructor() {
+    this.eventStore = new Set()
+  }
 
-	assignEventToWindow(
-		eventName: string,
-		targetClassName: string,
-		eventHandler: (e: Event) => any
-	) {
-		const targetName = `.${targetClassName.split(" ").join(".")}`;
-		const eventAndTargetKey = targetName + eventName;
-		if (this.eventStore.has(eventAndTargetKey)) {
-			return;
-		}
-		this.eventStore.add(eventAndTargetKey);
+  assignEventToWindow(
+    eventName: string,
+    targetClassName: string,
+    eventHandler: (e: Event) => any
+  ) {
+    const targetName = `.${targetClassName.split(' ').join('.')}`
+    const eventAndTargetKey = targetName + eventName
+    if (this.eventStore.has(eventAndTargetKey)) {
+      return
+    }
+    this.eventStore.add(eventAndTargetKey)
 
-		window.addEventListener(eventName, (e: Event) => {
-			const target = (e.target as HTMLElement).closest(targetName);
-			if (!target) {
-				return;
-			}
+    window.addEventListener(eventName, (e: Event) => {
+      const target = (e.target as HTMLElement).closest(targetName)
+      if (!target) {
+        return
+      }
 
-			eventHandler(e);
-		});
-	}
+      eventHandler(e)
+    })
+  }
 }
 
-export const eventHandler = new EventHandler();
+export const eventHandler = new EventHandler()

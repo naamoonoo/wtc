@@ -5,16 +5,15 @@ import Counter from "../Counter/Counter";
 interface IProps {}
 interface IState {}
 
-class App extends Component<IProps, IState> {
-	constructor(props: IProps, state: IState) {
-		super(props, state);
+class App extends Component<IProps, IState, undefined> {
+	constructor() {
+		super();
 
 		Object.setPrototypeOf(this, App.prototype);
 		this.init();
 	}
 
 	render() {
-		console.log("App rerendered");
 		return div(
 			{
 				className: "container",
