@@ -1,4 +1,4 @@
-import { IAttribute, createElement } from './createElement'
+import { IAttribute, createElement, HTMLELementTagName } from './createElement'
 import { Component } from './'
 
 const htmlTagNames = [
@@ -248,6 +248,6 @@ export const [
 ] = htmlTagNames.map(
   (tagName) => (
     attributes: IAttribute,
-    ...childNodes: (HTMLElement | Component<any, any, any>)[]
-  ) => createElement(tagName, attributes, ...childNodes)
+    ...childNodes: (HTMLElement | Component<any, any>)[]
+  ) => createElement(tagName as HTMLELementTagName, attributes, ...childNodes)
 )

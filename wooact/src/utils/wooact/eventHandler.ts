@@ -7,18 +7,18 @@ class EventHandler {
 
   assignEventToWindow(
     eventName: string,
-    targetClassName: string,
+    eventTarget: string,
     eventHandler: (e: Event) => any
   ) {
-    const targetName = `.${targetClassName.split(' ').join('.')}`
-    const eventAndTargetKey = targetName + eventName
+    // const targetName = `.${targetClassName.split(' ').join('.')}`
+    const eventAndTargetKey = eventTarget + eventName
     if (this.eventStore.has(eventAndTargetKey)) {
       return
     }
     this.eventStore.add(eventAndTargetKey)
 
     window.addEventListener(eventName, (e: Event) => {
-      const target = (e.target as HTMLElement).closest(targetName)
+      const target = (e.target as HTMLElement).closest(eventTarget)
       if (!target) {
         return
       }

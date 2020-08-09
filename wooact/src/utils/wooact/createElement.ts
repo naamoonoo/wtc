@@ -1,20 +1,6 @@
 import { Component } from '.'
 import { eventHandler } from './eventHandler'
 
-// export type CreateElement = (
-//   tagName: string,
-//   attributes: IAttribute,
-//   ...childNodes: (HTMLElement | Component<any, any> | null)[]
-// ) => HTMLElement
-
-// declare global {
-// 	namespace Express {
-// 		interface Request {
-// 			currentUser?: IUser;
-// 		}
-// 	}
-// }
-
 declare global {
   interface HTMLElement {
     key?: string
@@ -25,14 +11,18 @@ export type HTMLELementTagName = keyof Omit<
   HTMLElementTagNameMap,
   'var' | 'object'
 >
+
 type HTMLElementTagType = HTMLElementTagNameMap[HTMLELementTagName]
 
-export type IAttribute = Partial<HTMLElementTagType>
+type CustomAttribute = {
+  eventTarget: string
+}
+export type IAttribute = Partial<HTMLElementTagType & CustomAttribute>
 
 export const createElement = (
-  tagName: string,
+  tagName: HTMLELementTagName,
   attributes: IAttribute,
-  ...childNodes: (HTMLElement | Component<any, any, any> | null)[]
+  ...childNodes: (HTMLElement | Component<any, any> | null | SVGElement)[]
 ): HTMLElement => {
   const newElement = document.createElement(tagName)
 
@@ -52,12 +42,12 @@ export const createElement = (
     // event
     if (typeof value === 'function') {
       const eventName = key.slice(2)
-      if (!attributes.className) {
+      if (!attributes.eventTarget) {
         newElement.addEventListener(eventName, value)
         continue
       }
 
-      eventHandler.assignEventToWindow(eventName, attributes.className, value)
+      eventHandler.assignEventToWindow(eventName, attributes.eventTarget, value)
       continue
     }
 
@@ -82,3 +72,17 @@ export const createElement = (
 
   return newElement
 }
+
+// export const createSVGAElement = (tagName: SVGAElementTagName, attributes: {}): SVGElement => {
+//   const newSVGElement = document.createElementNS('http://www.w3.org/2000/svg', tagName)
+
+//   return newSVGElement
+// }
+
+// export type SVGAElementTagName =
+//   | 'svg'
+//   | 'line'
+//   | 'text'
+//   | 'g'
+//   | 'polyline'
+//   | 'circle'
